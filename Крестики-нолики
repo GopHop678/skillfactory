@@ -1,1 +1,41 @@
+board = {
+    '11': ' ',
+    '12': ' ',
+    '13': ' ',
+    '21': ' ',
+    '22': ' ',
+    '23': ' ',
+    '31': ' ',
+    '32': ' ',
+    '33': ' '
+}
+
+turn = 'XO'
+move = 1
+while move < 10:
+    print(f"{turn[move % 2]}'s turn")
+    coords = input('Coordinates: ')
+    if board[coords] == ' ':
+        board[coords] = turn[move % 2]
+        move += 1
+        print('|', board['11'], board['12'], board['13'], '|')
+        print('|', board['21'], board['22'], board['23'], '|')
+        print('|', board['31'], board['32'], board['33'], '|')
+    else:
+        print('Impossible move!')
+        continue
+    if board['11'] == board['12'] == board['13'] != ' ' or \
+       board['21'] == board['22'] == board['23'] != ' ' or \
+       board['31'] == board['32'] == board['33'] != ' ' or \
+       board['11'] == board['21'] == board['31'] != ' ' or \
+       board['21'] == board['22'] == board['32'] != ' ' or \
+       board['31'] == board['23'] == board['33'] != ' ' or \
+       board['11'] == board['22'] == board['33'] != ' ' or \
+       board['13'] == board['22'] == board['31'] != ' ':
+        print(f'{turn[(move + 1) % 2]} win!')
+        break
+
+print('|', board['11'], board['12'], board['13'], '|')
+print('|', board['21'], board['22'], board['23'], '|')
+print('|', board['31'], board['32'], board['33'], '|')
 
