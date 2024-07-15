@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <table  align="left" cellpadding="5" border="0" width="50%">
+            <tr>
+                <td><a href="/about/" style="color: white;">About</a> </td>
+                <td><a href="/double/ " style="color: white;">Double template</a> </td>
+                <td><a href="/wysiwyg/" style="color: white;">Wysiwyg</a> </td>
+                <td><a href="/reg_only/" style="color: white;">Registered users only</a> </td>
+            </tr>
+        </table>
+    </nav>
+    <br><br>
+{% block menu %}
+{% endblock menu %}
+</body>
+</html>
