@@ -1,0 +1,79 @@
+from news.models import *
+
+Создадим пользователей:
+    User.objects.create_user(username='Ivanov')
+    User.objects.create_user(username='Smirnov')
+    User.objects.create_user(username='Petrov')
+
+Создадим двух авторов:
+
+Author.objects.create(user=User.objects.get(username='Ivanov'))
+Author.objects.create(user=User.objects.get(username='Petrov'))
+
+Создадим 4 категории:
+
+Category.objects.create(category='Спорт')
+Category.objects.create(category='Политика')
+Category.objects.create(category='Образование')
+Category.objects.create(category='Экономика')
+
+Создадим 2 статьи и 1 новость:
+
+Post.objects.create(post_type='Article', title='Article_1', content='Content_for_article_1', rating=0, author=Author.objects.get(id=1))
+Post.objects.create(post_type='Article', title='Article_2', content='Content_for_article_2', rating=0, author=Author.objects.get(id=2))
+Post.objects.create(post_type='Article', title='News_1', content='Content_for_news_1', rating=0, author=Author.objects.get(id=1))
+
+Добавим постам категории:
+
+PostCategory.objects.create(post=Post.objects.get(id='1'), category=Category.objects.get(id=1)) 
+PostCategory.objects.create(post=Post.objects.get(id='1'), category=Category.objects.get(id=2))
+PostCategory.objects.create(post=Post.objects.get(id='2'), category=Category.objects.get(id=2)) 
+PostCategory.objects.create(post=Post.objects.get(id='3'), category=Category.objects.get(id=4))
+
+Добавим постам комментарии:
+
+Comment.objects.create(post=Post.objects.get(id=1), user=User.objects.get(id=3), text='Comment_1', rating=0) 
+Comment.objects.create(post=Post.objects.get(id=1), user=User.objects.get(id=1), text='Comment_2', rating=0) 
+Comment.objects.create(post=Post.objects.get(id=2), user=User.objects.get(id=2), text='Comment_3', rating=0) 
+Comment.objects.create(post=Post.objects.get(id=3), user=User.objects.get(id=2), text='Comment_4', rating=0) 
+
+Изменим рейтинг комментариев:
+
+obj = Comment.objects.get(id=1)                 
+obj.like()
+obj.save()
+...
+
+Выполним подсчет рейтинга авторов:
+
+obj = Author.objects.get(id=1)
+obj.update_rating()
+...
+
+Вывести username и рейтинг лучшего автора, а не пользователя, т.к. класс User не был дополнен атрибутом rating:
+
+Author.objects.order_by('-rating').first().user
+
+Выведем дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи:
+
+obj = Post.objects.order_by('-rating').first()
+obj.add_date, obj.author.user, obj.rating, obj.title, obj.preview()
+
+Выведем все комментарии (дата, пользователь, рейтинг, текст) к этой статье:
+
+...
+comms = Comment.objects.filter(post=obj)
+'\n'.join([i.text for i in comms])
+
+
+Зарегестрировали модели в admin.py для работы с ними в панели администратора.
+
+from django.contrib import admin
+from .models import *
+
+admin.site.register(Author)
+admin.site.register(Category)
+admin.site.register(Post)
+admin.site.register(Comment)
+admin.site.register(PostCategory)
+
