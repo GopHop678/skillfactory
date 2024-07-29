@@ -8,6 +8,8 @@
 {% block body %}
 <div class="content", style="margin-left: 20px;">
     <h1>
+        Published: {{ unit_of_news.add_date|date:"d.m.Y" }}
+        <br>
         {{ unit_of_news.title }}
         <br>
         {{ unit_of_news.content|censor }}
