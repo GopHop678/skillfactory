@@ -1,0 +1,26 @@
+{% extends 'news/header.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %} News page {% endblock %}
+
+{% block body %}
+<div class="content" style="margin-left: 20px;">
+    <h1>
+        Current time: {% current_time '%b %d %Y' %}<br>
+        {% if news %}
+            Total amount of news - {{ news|length }}
+        {% endif %}
+        <hr>
+        {% for new in news %}
+            <a class="news" href="{{ new.id }}">
+                Title: {{ new.title }},
+                <br> Published: {{ new.add_date|date:"d.m.Y" }},
+                <br> Preview: {{ new.content|censor|slice:":20" }}<hr><br>
+            </a>
+        {% empty %}
+            No news available.
+        {% endfor %}
+    </h1>
+</div>
+{% endblock %}
